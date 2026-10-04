@@ -75,3 +75,30 @@ recomendar(CostoMax, KmMax, ReseñaMin, Destino) :-
 
 recomendar_por_clima(Clima, Destino) :-
     destino(Destino, _, Clima, _).
+
+% Puntaje dinámico usando los pesos de la base de conocimiento
+puntaje(Pais, PuntajeFinal) :-
+    destino(Pais, Costo, _, Resena),
+    distancia(Pais, _, Km),
+    peso(resena, PR),
+    peso(costo, PC),
+    peso(distancia, PK),
+    PuntajeFinal is (PR * Resena) - (PC * Costo) - (PK * Km).
+
+% lista de recomendaciones
+recomendaciones(ClimaPref, ContinentePref, DiasPref, PresupuestoMax, VisaStr, ListaOrdenada) :-
+    (VisaStr == 'si' -> ReqVisa = true ; ReqVisa = false),
+    findall(Puntaje-Pais,
+        (
+            destino(Pais, Costo, ClimaPais, _),
+            continente(Pais, ContinentePais),
+            requiere_visa(Pais, ReqVisa),
+            dias_minimos(Pais, MinDias),
+            ClimaPais == ClimaPref,
+            ContinentePais == ContinentePref,
+            Costo =< PresupuestoMax,
+            MinDias =< DiasPref,
+            puntaje(Pais, Puntaje)
+        ),
+        ListaDesordenada),
+    sort(0, @>=, ListaDesordenada, ListaOrdenada).
