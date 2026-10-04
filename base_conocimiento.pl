@@ -77,3 +77,17 @@ distancia(espana, 12, 10700).
 peso(resena, 20).
 peso(costo, 0.005).
 peso(distancia, 0.001).
+
+%------------------------------------------
+% Días mínimos requeridos por destino 
+%------------------------------------------
+dias_minimos(japon, 10).
+dias_minimos(china, 12).
+dias_minimos(egipto, 8).
+dias_minimos(argentina, 5).
+dias_minimos(brasil, 7).
+dias_minimos(mexico, 6).
+dias_minimos(australia, 14).
+dias_minimos(francia, 8).
+dias_minimos(italia, 10).
+dias_minimos(espana, 10).
