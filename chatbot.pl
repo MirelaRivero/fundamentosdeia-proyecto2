@@ -40,7 +40,7 @@ preguntar_opcion(Pregunta, Validas, Respuesta) :-
     writeln(Pregunta),
     leer_linea(T0),
     limpiar(T0, T),
-    (   memberchk(Respuesta, Validas)
+    (   memberchk(T, Validas)
     ->  Respuesta = T
     ;   format('Opción inválida. Opciones válidas: ~w~n', [Validas]),
         preguntar_opcion(Pregunta, Validas, Respuesta)
@@ -68,7 +68,7 @@ mostrar_destino(Posicion, Pais, Puntaje) :-
     (   requiere_visa(Pais, true)
     ->  Visa = 'Requiere visa'
     ;   Visa = 'No requiere visa'
-    ).
+    ),
     format('~d. ~w (~w)~n', [Posicion, Pais, Continente]),
     format(' Costo: USD ~w | Clima: ~w | Reseña: ~w~n', [Costo, Clima, Resena]),
     format(' Vuelo: ~w h (~w km) | ~w | Puntaje: ~1f~n', [Horas, Km, Visa, Puntaje]).
@@ -120,7 +120,7 @@ flujo_consulta :-
     (   destino(Pais, _, _, _) 
     ->  puntaje(Pais, Puntaje),
         dias_minimos(Pais, MinDias),
-        mostrar_informacion(1, Pais, Puntaje),
+        mostrar_destino(1, Pais, Puntaje),
         format('Este destino requiere un mínimo de ~d días para disfrutarlo plenamente.~n', [MinDias])
         ;   writeln('Lo siento, no tengo información sobre ese destino.')
     ).
