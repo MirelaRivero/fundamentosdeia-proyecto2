@@ -1,5 +1,16 @@
-% Hechos: destinos y su ubicación geográfica
+% Base de conocimiento para el chatbot de turismo
+% Dominio: el mundo (destinos turísticos vistos desde Chile)
 % ------------------------------------------
+
+%------------------------------------------
+% origen(Pais).
+% Pais desde el cual se miden distancia y tiempo de vuelo.
+%------------------------------------------
+origen(chile).
+
+%------------------------------------------
+% continente(Pais, Continente).
+%------------------------------------------
 continente(japon, asia).
 continente(china, asia).
 continente(egipto, africa).
@@ -11,10 +22,12 @@ continente(francia, europa).
 continente(italia, europa).
 continente(espana, europa).
 
-% Hechos: atributos y criterios del destino
-% formato: destino(pais, costo, clima, resenas)
 % ------------------------------------------
-
+% destino(Pais, CostoUSD, Clima, Resena).
+% costoUSD: costo estimado del viaje (numero).
+% clima: calido | templado.
+% resena: promedio de 1.0 a 5.0.
+% ------------------------------------------
 destino(japon, 3000, templado, 4.5).
 destino(china, 2500, templado, 4.2).
 destino(egipto, 2000, calido, 4.0).
@@ -26,10 +39,10 @@ destino(francia, 4000, templado, 4.7).
 destino(italia, 3800, templado, 4.8).
 destino(espana, 3600, templado, 4.5).
 
-% Hechos: requisitos de entrada (visa)
-% formato: requiere_visa(pais, true/false)
 % ------------------------------------------
-
+% requiere_visa(Pais, Booleano).
+% true = los chilenos necesitan visa, false = no la necesitan.
+% ------------------------------------------
 requiere_visa(japon, false).
 requiere_visa(china, false).
 requiere_visa(egipto, false).
@@ -41,10 +54,10 @@ requiere_visa(francia, false).
 requiere_visa(italia, false).
 requiere_visa(espana, false).
 
-% Hechos: distancia o tiempo de vuelo desde el origen
-% formato: distancia(pais, tiempo_vuelo, distancia_km)
 % ------------------------------------------
-
+% distancia(pais, tiempo_vuelo, distancia_km)
+% Medida desde el pais de origen.
+% ------------------------------------------
 distancia(japon, 26, 17000).
 distancia(china, 27, 19000).
 distancia(egipto, 21, 12500).
@@ -55,3 +68,12 @@ distancia(australia, 13.5, 11200).
 distancia(francia, 14, 11600).
 distancia(italia, 15, 11900).
 distancia(espana, 12, 10700).
+
+%------------------------------------------
+% peso(Criterio, Valor).
+% Ponderaciones usadas para las recomendaciones, se pueden ajustar sin tocar las reglas
+% puntaje = 20*resena - 0.005*costo - 0.001*km
+%------------------------------------------
+peso(resena, 20).
+peso(costo, 0.005).
+peso(distancia, 0.001).
