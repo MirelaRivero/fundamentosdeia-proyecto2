@@ -45,17 +45,17 @@ requiere_visa(francia, false).
 requiere_visa(italia, false).
 requiere_visa(espana, false).
 
-% distancia(Pais, TiempoVueloHoras, DistanciaKm).
-distancia(japon, 26, 17000).
-distancia(china, 27, 19000).
-distancia(egipto, 21, 12500).
-distancia(argentina, 2, 1100).
-distancia(brasil, 4, 3000).
-distancia(mexico, 9, 6600).
-distancia(australia, 13.5, 11200).
-distancia(francia, 14, 11600).
-distancia(italia, 15, 11900).
-distancia(espana, 12, 10700).
+% distancia(Origen, Destino, TiempoVueloHoras, DistanciaKm).
+distancia(chile, japon, 26, 17000).
+distancia(chile, china, 27, 19000).
+distancia(chile, egipto, 21, 12500).
+distancia(chile, argentina, 2, 1100).
+distancia(chile, brasil, 4, 3000).
+distancia(chile, mexico, 9, 6600).
+distancia(chile, australia, 13.5, 11200).
+distancia(chile, francia, 14, 11600).
+distancia(chile, italia, 15, 11900).
+distancia(chile, espana, 12, 10700).
 
 % peso(Criterio, Valor).
 peso(resena, 20).
