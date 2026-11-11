@@ -1,3 +1,4 @@
+:- encoding(utf8).
 % Base de conocimiento para el chatbot de turismo
 % Dominio: el mundo (destinos turísticos vistos desde Chile)
 % ------------------------------------------
