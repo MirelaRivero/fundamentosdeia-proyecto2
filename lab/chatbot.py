@@ -3,13 +3,14 @@ import json
 from flask import Flask, render_template, request, jsonify
 from google import genai
 from google.genai import types
-# import google.generativeai as genai
 
 app = Flask(__name__)
 
 # Configuración del cliente Gemini API
 API_KEY = os.environ.get("GEMINI_API_KEY", "TU_API_KEY_AQUI")
-client = genai.Client(api_key=API_KEY)
+client = genai.Client(
+    api_key=API_KEY,
+    http_options=types.HttpOptions(timeout=10000))
 
 # Base de conocimiento estructurada extraída fielmente de Prolog (proyecto2.pl)
 KNOWLEDGE_BASE = """
@@ -62,18 +63,27 @@ def chat():
     
     config = types.GenerateContentConfig(
         system_instruction=SYSTEM_INSTRUCTION,
-        temperature=0.3,
+        temperature=0.3
     )
+
+    # Modelos a intentar en caso de que no se genere respuesta
+    models_to_try = ['gemini-3.5-flash-lite', 'gemini-3.8-flash']
+    last_exception = None
     
-    try:
-        response = client.models.generate_content(
-            model='gemini-3.8-flash',
-            contents=contents,
-            config=config
-        )
-        return jsonify({'response': response.text})
-    except Exception as e:
-        return jsonify({'response': f"Error al procesar la solicitud: {str(e)}"}), 500
+    for model_name in models_to_try:
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=contents,
+                config=config
+            )
+            return jsonify({'response': response.text})
+        except Exception as e:
+            last_exception = e
+            continue
+            #return jsonify({'response': f"Error al procesar la solicitud: {str(e)}"}), 500
+
+    return jsonify({'response': f"Error al procesar la solicitud: {str(last_exception)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
